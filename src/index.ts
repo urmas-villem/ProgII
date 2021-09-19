@@ -20,7 +20,6 @@ const db_subjects = {
     subject: [
         {
         id: 1,
-        teacherId: db_teachers.teacher.id,
         nameOfSubject: 'Math',
         }
     ]

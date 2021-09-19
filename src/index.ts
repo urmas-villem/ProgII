@@ -44,7 +44,7 @@ const db_courses = {
 const dbTodaysClasses = {
     todaysClasses:[
         {
-        teacher: db_teachers.teacher.firstName + " " + db_teachers.teacher.lastName,
+        teacher: db_teachers.teacher.firstName,
         subject: db_subjects.subject.nameOfSubject,
         room: db_rooms.room.id,
         course: db_courses.course.id,

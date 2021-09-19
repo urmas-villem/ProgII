@@ -6,52 +6,67 @@ const port: number = 3000;
 const ok: number = 200;
 const created: number = 201;
 
-const db = {
-    users: [
+const db_teachers = {
+    teacher:[
         {
-            id: 1,
-            firstName: 'Juku',
-            lastName: 'Juurikas',
-        },
+        id: 1,
+        firstName: 'Albert',
+        lastName: 'Einstein',
+        }
+    ]
+};
+
+const db_subjects = {
+    subject: [
         {
-            id: 2,
-            firstName: 'Mari',
-            lastName: 'Maasikas',
+        id: 1,
+        teacherId: db_teachers.teacher.id,
+        nameOfSubject: 'Math',
+        }
+    ]
+};
+
+const db_rooms = {
+    room:[
+        {
+        id: 206,
+        }
+    ]
+};
+
+const db_courses = {
+    course:[ 
+        {
+        id: 'RIF2',
+        }
+    ]
+};
+
+const dbTodaysClasses = {
+    todaysClasses:[
+        {
+        teacher: db_teachers.teacher.firstName + " " + db_teachers.teacher.lastName,
+        subject: db_subjects.subject.nameOfSubject,
+        room: db_rooms.room.id,
+        course: db_courses.course.id,
         }
     ]
 }
 
-app.get('/ping', (req: Request, res: Response) => {
+app.get('/course/:id', (req: Request, res: Response) => {
+    const classes = dbTodaysClasses.todaysClasses
     res.status(ok).json({
-        message: 'Hello World!',
-    });
-});
-
-app.get('/users', (req: Request, res: Response) => {
-    res.status(ok).json({
-        users: db.users,
-    });
-});
-
-app.get('/users/:id', (req: Request, res: Response) => {
-    const id: number = parseInt(req.params.id);
-    const user = db.users.find((element) => element.id === id);
-    res.status(ok).json({
-        user,
+        classes,
     });
 });
 
 app.post('/users', (req: Request, res: Response) => {
     const { firstName, lastName } = req.body;
-    const id = db.users.length + 1;
-    db.users.push({
+    const id = db_teachers.teacher.length + 1;
+    db_teachers.teacher.push({
         id,
         firstName, 
         lastName,
-    });
-    console.log(db.users);
-    res.status(created).json({
-        id
     });
 });
 

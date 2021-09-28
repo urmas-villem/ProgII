@@ -7,20 +7,31 @@ const ok: number = 200;
 const created: number = 201;
 
 const db_teachers = {
-    teacher:[
+    teachers:[
         {
-        id: 1,
-        firstName: 'Albert',
-        lastName: 'Einstein',
-        }
+            id: 1,
+            firstName: 'Albert',
+            lastName: 'Einstein',
+        },
+        {
+            id: 2,
+            firstName: 'Marie',
+            lastName: 'Curie',
+        }    
     ]
 };
 
 const db_subjects = {
     subject: [
         {
-        id: 1,
-        nameOfSubject: 'Math',
+            id: 1,
+            teacherOfSubject: db_teachers.teachers[0].firstName + " " + db_teachers.teachers[0].lastName,
+            nameOfSubject: 'Math',
+        },
+        {
+            id: 2,
+            teacherOfSubject: db_teachers.teachers[1].firstName + " " + db_teachers.teachers[1].lastName,
+            nameOfSubject: 'Chemistry',
         }
     ]
 };
@@ -28,7 +39,10 @@ const db_subjects = {
 const db_rooms = {
     room:[
         {
-        id: 206,
+            id: 206,
+        },
+        {
+            id: 205,
         }
     ]
 };
@@ -36,7 +50,10 @@ const db_rooms = {
 const db_courses = {
     course:[ 
         {
-        id: 'RIF2',
+            id: 'RIF2',
+        },
+        {
+            id: 'RIF3'
         }
     ]
 };
@@ -44,28 +61,27 @@ const db_courses = {
 const dbTodaysClasses = {
     todaysClasses:[
         {
-        teacher: db_teachers.teacher.firstName,
-        subject: db_subjects.subject.nameOfSubject,
-        room: db_rooms.room.id,
-        course: db_courses.course.id,
+            id: 1,
+            course: db_courses.course[0].id,
+            subject: db_subjects.subject[0].nameOfSubject,
+            teacher: db_subjects.subject[0].teacherOfSubject,
+            room: db_rooms.room[0].id
+        },
+        {
+            id: 2,
+            course: db_courses.course[1].id,
+            subject: db_subjects.subject[1].nameOfSubject,
+            teacher: db_subjects.subject[1].teacherOfSubject,
+            room: db_rooms.room[1].id
         }
     ]
-}
+};
 
 app.get('/course/:id', (req: Request, res: Response) => {
-    const classes = dbTodaysClasses.todaysClasses
+    const id: number = parseInt(req.params.id);
+    const classes = dbTodaysClasses.todaysClasses.find((element) => element.id === id)
     res.status(ok).json({
         classes,
-    });
-});
-
-app.post('/users', (req: Request, res: Response) => {
-    const { firstName, lastName } = req.body;
-    const id = db_teachers.teacher.length + 1;
-    db_teachers.teacher.push({
-        id,
-        firstName, 
-        lastName,
     });
 });
 

@@ -24,12 +24,10 @@ const db_teachers = {
 const db_subjects = {
     subject: [
         {
-            id: 1,
             teacherOfSubject: db_teachers.teachers[0].firstName + " " + db_teachers.teachers[0].lastName,
             nameOfSubject: 'Math',
         },
         {
-            id: 2,
             teacherOfSubject: db_teachers.teachers[1].firstName + " " + db_teachers.teachers[1].lastName,
             nameOfSubject: 'Chemistry',
         }
@@ -39,10 +37,13 @@ const db_subjects = {
 const db_rooms = {
     room:[
         {
-            id: 206,
+            idOfRoom: 201,
         },
         {
-            id: 205,
+            idOfRoom: 202,
+        },
+        {
+            idOfRoom: 203,
         }
     ]
 };
@@ -50,38 +51,100 @@ const db_rooms = {
 const db_courses = {
     course:[ 
         {
-            id: 'RIF2',
+            courseId: 'RIF2',
         },
         {
-            id: 'RIF3'
+            courseId: 'RIF3'
         }
     ]
 };
 
-const dbTodaysClasses = {
-    todaysClasses:[
-        {
-            id: 1,
-            course: db_courses.course[0].id,
-            subject: db_subjects.subject[0].nameOfSubject,
-            teacher: db_subjects.subject[0].teacherOfSubject,
-            room: db_rooms.room[0].id
-        },
-        {
-            id: 2,
-            course: db_courses.course[1].id,
-            subject: db_subjects.subject[1].nameOfSubject,
-            teacher: db_subjects.subject[1].teacherOfSubject,
-            room: db_rooms.room[1].id
+const dbTodaysClasses: any = [];
+
+function createTodaysClasses(){
+    for (var i = 0; i < db_teachers.teachers.length; i++) {
+        dbTodaysClasses[i] = {
+            id: i + 1,
+            course: db_courses.course[i].courseId,
+            subject: db_subjects.subject[i].nameOfSubject,
+            teacher: db_subjects.subject[i].teacherOfSubject,
+            room: db_rooms.room[i].idOfRoom
         }
-    ]
+        if (db_subjects.subject[i].teacherOfSubject === 'placeholder'){
+            db_subjects.subject[i].teacherOfSubject = db_teachers.teachers[i].firstName + " " + db_teachers.teachers[i].lastName
+        }
+    }
 };
 
-app.get('/course/:id', (req: Request, res: Response) => {
+/** 
+ * Post - Create
+ * Get - Read
+ * Put - Update
+ * Delete - Delete
+*/
+
+app.get('/schedule/:id', (req: Request, res: Response) => {
     const id: number = parseInt(req.params.id);
-    const classes = dbTodaysClasses.todaysClasses.find((element) => element.id === id)
+    const classes = dbTodaysClasses.find((element: any) => element.id === id)
+
+    createTodaysClasses()
+    
     res.status(ok).json({
         classes,
+    });
+});
+
+app.post('/schedule', (req: Request, res: Response) => {
+    const { firstName, lastName, nameOfSubject, idOfRoom, courseId } = req.body;
+    const id = db_teachers.teachers.length + 1;
+    db_teachers.teachers.push({
+        id,
+        firstName,
+        lastName,
+    })
+    db_rooms.room.push({
+        idOfRoom,
+    })
+    db_courses.course.push({
+        courseId,
+    })
+    const teacherOfSubject = 'placeholder'
+    db_subjects.subject.push({
+        teacherOfSubject,
+        nameOfSubject,
+    })
+
+    createTodaysClasses()
+
+    res.status(ok).json({
+       message: 'Class added',
+    })
+});
+
+app.delete('/schedule/:id', (req: Request, res: Response) => {
+    const id: number = parseInt(req.params.id);
+    db_teachers.teachers.splice(id - 1, 1)
+    db_subjects.subject.splice(id - 1, 1)
+    db_rooms.room.splice(id - 1, 1)
+    db_courses.course.splice(id - 1, 1)
+    dbTodaysClasses.splice(id - 1, 1)
+
+    /** 
+    console.log(db_teachers.teachers)
+    console.log(db_subjects.subject)
+    console.log(db_rooms.room)
+    console.log(db_courses.course)
+    console.log(dbTodaysClasses)
+    */
+
+    res.status(ok).json({
+        message: 'Delete done',
+     })
+});
+
+app.get('/wtf', (req: Request, res: Response) => {
+    res.status(ok).json({
+        dbTodaysClasses
     });
 });
 

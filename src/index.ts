@@ -96,7 +96,7 @@ app.get('/schedule/:id', (req: Request, res: Response) => {
 
 app.post('/schedule', (req: Request, res: Response) => {
     const { firstName, lastName, nameOfSubject, idOfRoom, courseId } = req.body;
-    const id = db_teachers.teachers.length + 1;
+    const id = dbTodaysClasses;
     db_teachers.teachers.push({
         id,
         firstName,
@@ -142,11 +142,36 @@ app.delete('/schedule/:id', (req: Request, res: Response) => {
      })
 });
 
+/** This is supposed to update but i never got it working
+app.put('/schedule/:id', (req: Request, res: Response) => {
+    const { firstName, lastName, nameOfSubject, idOfRoom, courseId } = req.body;
+    const id: number = parseInt(req.params.id); 
+    db_teachers.teachers.concat({
+        id,
+        firstName,
+        lastName,
+    })
+    db_rooms.room.concat({
+        idOfRoom,
+    })
+    db_courses.course.concat({
+        courseId,
+    })
+    const teacherOfSubject = 'placeholder'
+    db_subjects.subject.concat({
+        teacherOfSubject,
+        nameOfSubject,
+    })
+});
+*/
+
+/** This is just to check the current state
 app.get('/wtf', (req: Request, res: Response) => {
     res.status(ok).json({
         dbTodaysClasses
     });
 });
+*/
 
 app.listen(port, () => {
     console.log('Server is running');

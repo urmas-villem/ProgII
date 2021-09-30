@@ -79,7 +79,7 @@ function createTodaysClasses(){
 /** 
  * Post - Create
  * Get - Read
- * Put - Update
+ * Patch - Update
  * Delete - Delete
 */
 
@@ -142,26 +142,16 @@ app.delete('/schedule/:id', (req: Request, res: Response) => {
      })
 });
 
-/** This is supposed to update but i never got it working
-app.put('/schedule/:id', (req: Request, res: Response) => {
+/** nii vist????
+app.patch('/schedule/:id', (req: Request, res: Response) => {
     const { firstName, lastName, nameOfSubject, idOfRoom, courseId } = req.body;
     const id: number = parseInt(req.params.id); 
-    db_teachers.teachers.concat({
-        id,
-        firstName,
-        lastName,
-    })
-    db_rooms.room.concat({
-        idOfRoom,
-    })
-    db_courses.course.concat({
-        courseId,
-    })
+    db_teachers.teachers[id].firstName = firstName
+    db_teachers.teachers[id].lastName = lastName
+    db_rooms.room[id].idOfRoom = idOfRoom
+    db_courses.course[id].courseId = courseId
     const teacherOfSubject = 'placeholder'
-    db_subjects.subject.concat({
-        teacherOfSubject,
-        nameOfSubject,
-    })
+    db_subjects.subject[id].nameOfSubject = nameOfSubject
 });
 */
 

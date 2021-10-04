@@ -1,4 +1,4 @@
-import express, { Request, Response, Application } from 'express';
+import express, { Request, Response, Application, request } from 'express';
 const app: Application = express();
 app.use(express.json());
 
@@ -41,9 +41,6 @@ const db_rooms = {
         },
         {
             idOfRoom: 202,
-        },
-        {
-            idOfRoom: 203,
         }
     ]
 };
@@ -76,19 +73,19 @@ function createTodaysClasses(){
     }
 };
 
-/** 
- * Post - Create
- * Get - Read
- * Put - Update
- * Delete - Delete
-*/
+function findTeachers(){
+    for (var i = 0; i < db_subjects.subject.length; i++) {
+        db_subjects.subject[i].teacherOfSubject = db_teachers.teachers[i].firstName + " " + db_teachers.teachers[i].lastName
+    }
+};
 
 app.get('/schedule/:id', (req: Request, res: Response) => {
     const id: number = parseInt(req.params.id);
     const classes = dbTodaysClasses.find((element: any) => element.id === id)
-
-    createTodaysClasses()
     
+    findTeachers()
+    createTodaysClasses()
+
     res.status(ok).json({
         classes,
     });
@@ -96,7 +93,7 @@ app.get('/schedule/:id', (req: Request, res: Response) => {
 
 app.post('/schedule', (req: Request, res: Response) => {
     const { firstName, lastName, nameOfSubject, idOfRoom, courseId } = req.body;
-    const id = dbTodaysClasses;
+    const id = db_teachers.teachers.length + 1;
     db_teachers.teachers.push({
         id,
         firstName,
@@ -114,11 +111,12 @@ app.post('/schedule', (req: Request, res: Response) => {
         nameOfSubject,
     })
 
-    createTodaysClasses()
-
     res.status(ok).json({
        message: 'Class added',
     })
+
+    findTeachers()
+    createTodaysClasses()
 });
 
 app.delete('/schedule/:id', (req: Request, res: Response) => {
@@ -129,49 +127,32 @@ app.delete('/schedule/:id', (req: Request, res: Response) => {
     db_courses.course.splice(id - 1, 1)
     dbTodaysClasses.splice(id - 1, 1)
 
-    /** 
-    console.log(db_teachers.teachers)
-    console.log(db_subjects.subject)
-    console.log(db_rooms.room)
-    console.log(db_courses.course)
-    console.log(dbTodaysClasses)
-    */
+    findTeachers()
+    createTodaysClasses()
 
     res.status(ok).json({
         message: 'Delete done',
      })
 });
 
-/** This is supposed to update but i never got it working
-app.put('/schedule/:id', (req: Request, res: Response) => {
+app.patch('/schedule/:id', (req: Request, res: Response) => {
     const { firstName, lastName, nameOfSubject, idOfRoom, courseId } = req.body;
     const id: number = parseInt(req.params.id); 
-    db_teachers.teachers.concat({
-        id,
-        firstName,
-        lastName,
-    })
-    db_rooms.room.concat({
-        idOfRoom,
-    })
-    db_courses.course.concat({
-        courseId,
-    })
-    const teacherOfSubject = 'placeholder'
-    db_subjects.subject.concat({
-        teacherOfSubject,
-        nameOfSubject,
-    })
-});
-*/
+    db_teachers.teachers[id].firstName = firstName
+    db_teachers.teachers[id].lastName = lastName
+    db_rooms.room[id].idOfRoom = idOfRoom
+    db_courses.course[id].courseId = courseId
+    db_subjects.subject[id].nameOfSubject = nameOfSubject
 
-/** This is just to check the current state
+    findTeachers()
+    createTodaysClasses()
+});
+
 app.get('/wtf', (req: Request, res: Response) => {
     res.status(ok).json({
         dbTodaysClasses
     });
 });
-*/
 
 app.listen(port, () => {
     console.log('Server is running');

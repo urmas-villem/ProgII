@@ -138,11 +138,11 @@ app.delete('/schedule/:id', (req: Request, res: Response) => {
 app.patch('/schedule/:id', (req: Request, res: Response) => {
     const { firstName, lastName, nameOfSubject, idOfRoom, courseId } = req.body;
     const id: number = parseInt(req.params.id); 
-    db_teachers.teachers[id].firstName = firstName
-    db_teachers.teachers[id].lastName = lastName
-    db_rooms.room[id].idOfRoom = idOfRoom
-    db_courses.course[id].courseId = courseId
-    db_subjects.subject[id].nameOfSubject = nameOfSubject
+    db_teachers.teachers[id-1].firstName = firstName
+    db_teachers.teachers[id-1].lastName = lastName
+    db_rooms.room[id-1].idOfRoom = idOfRoom
+    db_courses.course[id-1].courseId = courseId
+    db_subjects.subject[id-1].nameOfSubject = nameOfSubject
 
     findTeachers()
     createTodaysClasses()

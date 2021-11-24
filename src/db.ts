@@ -14,7 +14,7 @@ export const db_access_control = {
             firstName: 'Marie',
             lastName: 'Curie',
             email: 'Marie.Curie@dailymail.co.uk',
-            password: '$2b$10$kmyCuJOVx4h9q24qFIXqEerc7xwqx6LWlA9ERnvoMinwL99KO4qee',
+            password: '$2b$10$WZHhMe7HKtoum.HVwJs46Oed2n46YNMpQ6ucgIAn/rXEr3pjtxDeS',
             //password: 'Radiationisabitch',
             role: 'User',
         }  

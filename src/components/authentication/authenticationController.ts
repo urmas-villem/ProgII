@@ -12,7 +12,7 @@ const authenticationController = {
             });
         }
 
-        return res.status(responseCodes.ok).json({ 
+        return res.status(responseCodes.ok).json({
             token
         });
     },

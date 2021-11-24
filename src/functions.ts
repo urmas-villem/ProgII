@@ -25,8 +25,7 @@ export function emailCheck(email: string){
     for (var i = 0; i < db_access_control.teachers.length; i++) {
         if (db_access_control.teachers[i].email === email){
             return db_access_control.teachers[i]
-        }else {
-            return 'Email is invalid'
         }
     }
+    return 'Email is invalid'
 };

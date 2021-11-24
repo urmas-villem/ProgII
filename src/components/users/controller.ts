@@ -10,7 +10,11 @@ const usersController = {
         if (!id || db_access_control.teachers.length < id) {
             return res.status(responseCodes.notFound).json({ error: 'User is not authenticated' })
         }else 
-    
+        //if ((id!== res.locals.user.id) || (res.locals.user.role !== 'Admin')){
+        //    return res.status(responseCodes.notAuthorized).json({ 
+        //        error: 'You dont have permissions to view this'
+        //    });
+        //}
         res.status(responseCodes.ok).json({ message: 'User authenticated' });
     },
 
@@ -111,6 +115,8 @@ const usersController = {
 
     viewAllSchedule: (req: Request, res: Response) => {
         res.status(responseCodes.ok).json({ dbTodaysClasses })
+        findTeachers()
+        createTodaysClasses()
     }, 
 
     viewAllUsers: (req: Request, res: Response) => {

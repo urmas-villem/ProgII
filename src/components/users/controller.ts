@@ -1,10 +1,39 @@
-import { db_teachers, db_courses, db_rooms, db_subjects, dbTodaysClasses } from '../../db';
+import { db_teachers, db_courses, db_rooms, db_subjects, dbTodaysClasses, db_access_control } from '../../db';
 import { createTodaysClasses, findTeachers } from '../../functions'
 import { Request, Response } from 'express';
 import responseCodes from '../../components/general/responseCodes';
+import hashService from '../general/services/hashService';
 
 const usersController = {
-    getUserById: (req: Request, res: Response) => {
+    getUserAccessById: (req: Request, res: Response) => {
+        const id: number = parseInt(req.params.id);
+        if (!id || db_access_control.teachers.length < id) {
+            return res.status(responseCodes.notFound).json({ error: 'User is not authenticated' })
+        }else 
+    
+        res.status(responseCodes.ok).json({ message: 'User authenticated' });
+    },
+
+    createUserAccess: async (req: Request, res: Response) => {
+        var { firstName, lastName, email, password, role } = req.body;
+        const id = db_access_control.teachers.length + 1;
+        var password: any = await hashService.hash(password);
+        if (!firstName || !lastName || !email || !password || !role) {
+            return res.status(responseCodes.notFound).json({ error: 'Not all required fields met. Fields needed: firstName, lastName, email, password, role' })
+        }else 
+        db_access_control.teachers.push({
+            id,
+            firstName,
+            lastName,
+            email,
+            password,
+            role,
+        })
+
+        res.status(responseCodes.created).json({ message: 'User access added' })
+    },
+
+    getUserScheduleById: (req: Request, res: Response) => {
         const id: number = parseInt(req.params.id);
         const classes = dbTodaysClasses.find((element: any) => element.id === id)
         if (!id || db_teachers.teachers.length < id) {
@@ -46,7 +75,7 @@ const usersController = {
         createTodaysClasses()
     }, 
 
-    deleteById: (req: Request, res: Response) => {
+    deleteFromScheduleById: (req: Request, res: Response) => {
         const id: number = parseInt(req.params.id);
         if (!id || dbTodaysClasses.length < id) {
             return res.status(responseCodes.notFound).json({ error: 'No valid id provided' })
@@ -64,9 +93,9 @@ const usersController = {
 
     },
 
-    editById: (req: Request, res: Response) => {
+    editScheduleById: (req: Request, res: Response) => {
         const { firstName, lastName, nameOfSubject, idOfRoom, courseId } = req.body;
-        const id: number = parseInt(req.params.id); 
+        const id: number = parseInt(req.params.id);
         if (!id || dbTodaysClasses.length < id) {
             return res.status(responseCodes.notFound).json({ error: 'No valid id provided' })
         }else
@@ -82,6 +111,10 @@ const usersController = {
 
     viewAllSchedule: (req: Request, res: Response) => {
         res.status(responseCodes.ok).json({ dbTodaysClasses })
+    }, 
+
+    viewAllUsers: (req: Request, res: Response) => {
+        res.status(responseCodes.ok).json({ db_access_control })
     }
 };
 

@@ -1,3 +1,26 @@
+export const db_access_control = {
+    teachers:[
+        {
+            id: 1,
+            firstName: 'Albert',
+            lastName: 'Einstein',
+            email: 'Albert.Einstein@yahoo.com',
+            password: '$2b$10$ZPcO7OYsxCYzc10SBE.Ui.L8YRWJsTp7lb6jBpE9Me/J27Fvy/9su',
+            //password: 'E=MCsquared',
+            role: 'Admin',
+        },
+        {
+            id: 2,
+            firstName: 'Marie',
+            lastName: 'Curie',
+            email: 'Marie.Curie@dailymail.co.uk',
+            password: '$2b$10$kmyCuJOVx4h9q24qFIXqEerc7xwqx6LWlA9ERnvoMinwL99KO4qee',
+            //password: 'Radiationisabitch',
+            role: 'User',
+        }  
+    ]
+};
+
 export const db_teachers = {
     teachers:[
         {
@@ -43,7 +66,7 @@ export const db_courses = {
             courseId: 'RIF2',
         },
         {
-            courseId: 'RIF3'
+            courseId: 'RIF3',
         }
     ]
 };

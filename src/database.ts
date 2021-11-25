@@ -8,7 +8,7 @@ createConnection({
     port: 3306,
     username: "root",
     password: "my-secret-pw",
-    database: "uvs-mysql",
+    database: "some-mysql",
     entities: [User],
     synchronize: true,
     logging: true

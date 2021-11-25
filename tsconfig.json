@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": ["es6"],
+    
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
     /* Projects */

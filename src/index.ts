@@ -4,6 +4,7 @@ import db_middleware from './components/general/middlewares';
 import authenticationController from './components/authentication/authenticationController';
 import isLoggedIn from './components/authentication/isLoggedInMiddleWare';
 import isAdmin from './components/authentication/isAdminMiddleware';
+import './database';
 
 const app: Application = express();
 //morgan install = npm install morgan

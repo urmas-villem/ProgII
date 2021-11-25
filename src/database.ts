@@ -1,16 +1,17 @@
 import "reflect-metadata";
 import { createConnection } from "typeorm";
+import User from './components/users/entity'
 
 createConnection({
     type: "mysql",
     host: "localhost",
     port: 3306,
     username: "root",
-    password: "admin",
-    database: "test",
-    entities: [],
+    password: "my-secret-pw",
+    database: "uvs-mysql",
+    entities: [User],
     synchronize: true,
-    logging: false
+    logging: true
 }).then(connection => {
     console.log('Database connection made to ${connection.name}');
     // here you can start to work with your entities

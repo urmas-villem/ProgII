@@ -121,7 +121,7 @@ const usersController = {
     }, 
 
     viewAllUsers: async (req: Request, res: Response) => {
-        const [users, fields] = await pool.query('SELECT * FROM users');
+        const [users] = await pool.query('SELECT id, firstName, lastName, email, dateCreated FROM users');
         res.status(responseCodes.ok).json({ users })
     }
 };

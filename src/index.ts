@@ -1,3 +1,5 @@
+//ENAM EI OSKA ISE KOODIGA EDASI MINNA JA LÜLITAN ÜMBER MARTTI KOODI PEALE ALATES 4. LOENGUST
+
 import usersController from './components/users/controller';
 import express, { Request, Response, Application, request } from 'express';
 import db_middleware from './components/general/middlewares';
@@ -27,7 +29,6 @@ app.post('/schedule', db_middleware.logger, morgan("tiny"), usersController.addT
 app.delete('/schedule/:id', db_middleware.logger, morgan("tiny"), usersController.deleteFromScheduleById);
 app.patch('/schedule/:id', db_middleware.logger, morgan("tiny"), usersController.editScheduleById);
 app.get('/wtfusers', db_middleware.logger, morgan("tiny"), usersController.viewAllUsers);
-
 
 app.listen(port, () => {
     console.log('Server is running');

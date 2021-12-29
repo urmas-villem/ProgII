@@ -1,31 +1,31 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
+//import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
 
-@Entity()
-export default class User {
-    @PrimaryGeneratedColumn()
-    id!: number;
+//@Entity()
+//export default class User {
+//    @PrimaryGeneratedColumn()
+//    id!: number;
 
-    @Column()
-    firstName!: string;
+//    @Column()
+//    firstName!: string;
 
-    @Column()
-    lastname!: string;
+//    @Column()
+//    lastname!: string;
     
-    @Column()
-    email!: string;
+//    @Column()
+//    email!: string;
 
-    @Column()
-    password!: string;
+//    @Column()
+//    password!: string;
 
-    @Column()
-    role!: string; 
+//    @Column()
+//    role!: string; 
 
-    @CreateDateColumn()
-    createdDate!: Date;
+//    @CreateDateColumn()
+//    createdDate!: Date;
 
-    @UpdateDateColumn()
-    updatedDate!: Date;
+//    @UpdateDateColumn()
+//    updatedDate!: Date;
 
-    @DeleteDateColumn()
-    deletedDate!: Date;
-}
+//    @DeleteDateColumn()
+//    deletedDate!: Date;
+//}

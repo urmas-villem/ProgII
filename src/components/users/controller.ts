@@ -122,8 +122,7 @@ const usersController = {
 
     viewAllUsers: async (req: Request, res: Response) => {
         const users = await pool.query('SELECT * FROM users');
-        return users;
-        //res.status(responseCodes.ok).json({ db_access_control })
+        res.status(responseCodes.ok).json({ users })
     }
 };
 

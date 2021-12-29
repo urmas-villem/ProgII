@@ -1,5 +1,3 @@
-//ENAM EI OSKA ISE KOODIGA EDASI MINNA JA LÜLITAN ÜMBER MARTTI KOODI PEALE ALATES 4. LOENGUST
-
 import usersController from './components/users/controller';
 import express, { Request, Response, Application, request } from 'express';
 import db_middleware from './components/general/middlewares';

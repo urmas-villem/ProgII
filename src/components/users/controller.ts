@@ -3,6 +3,7 @@ import { createTodaysClasses, findTeachers } from '../../functions'
 import { Request, Response } from 'express';
 import responseCodes from '../../components/general/responseCodes';
 import hashService from '../general/services/hashService';
+import pool from '../../database';
 
 const usersController = {
     getUserAccessById: (req: Request, res: Response) => {
@@ -119,8 +120,10 @@ const usersController = {
         createTodaysClasses()
     }, 
 
-    viewAllUsers: (req: Request, res: Response) => {
-        res.status(responseCodes.ok).json({ db_access_control })
+    viewAllUsers: async (req: Request, res: Response) => {
+        const users = await pool.query('SELECT * FROM users');
+        return users;
+        //res.status(responseCodes.ok).json({ db_access_control })
     }
 };
 

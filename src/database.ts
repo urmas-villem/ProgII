@@ -1,20 +1,13 @@
-import "reflect-metadata";
-import { createConnection } from "typeorm";
-import User from './components/users/entity'
+import mysql from 'mysql2';
 
-createConnection({
-    type: "mysql",
-    host: "localhost",
-    port: 3306,
-    username: "root",
-    password: "my-secret-pw",
-    database: "some-mysql",
-    entities: [User],
-    synchronize: true,
-    logging: true
-}).then(connection => {
-    console.log('Database connection made to ${connection.name}');
-    // here you can start to work with your entities
-}).catch(error => console.log(error));
+const pool = mysql.createPool({
+    host: 'localhost',
+    user: 'root',
+    password: 'C4inCbw03aGwur!',
+    database: 'classes',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+  }).promise();
 
-export default createConnection;
+export default pool;

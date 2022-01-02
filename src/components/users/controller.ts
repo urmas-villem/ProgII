@@ -10,12 +10,7 @@ const usersController = {
         const id: number = parseInt(req.params.id);
         if (!id || db_access_control.teachers.length < id) {
             return res.status(responseCodes.notFound).json({ error: 'User is not authenticated' })
-        }else 
-        //if ((id!== res.locals.user.id) || (res.locals.user.role !== 'Admin')){
-        //    return res.status(responseCodes.notAuthorized).json({ 
-        //        error: 'You dont have permissions to view this'
-        //    });
-        //}
+        }else
         res.status(responseCodes.ok).json({ message: 'User authenticated' });
     },
 

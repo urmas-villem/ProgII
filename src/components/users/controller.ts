@@ -20,22 +20,25 @@ const usersController = {
     },
 
     createUserAccess: async (req: Request, res: Response) => {
-        var { firstName, lastName, email, password, role } = req.body;
-        const id = db_access_control.teachers.length + 1;
-        var password: any = await hashService.hash(password);
-        if (!firstName || !lastName || !email || !password || !role) {
-            return res.status(responseCodes.notFound).json({ error: 'Not all required fields met. Fields needed: firstName, lastName, email, password, role' })
-        }else 
-        db_access_control.teachers.push({
-            id,
-            firstName,
-            lastName,
-            email,
-            password,
-            role,
-        })
+        try{
+            var { firstName, lastName, email, password, role } = req.body;
+            var password: any = await hashService.hash(password);
+            if (!firstName || !lastName || !email || !password || !role) {
+                return res.status(responseCodes.notFound).json({ error: 'Not all required fields met. Fields needed: firstName, lastName, email, password, role' })
+            }else 
+            var user = {
+                firstName,
+                lastName,
+                email,
+                password,
+                role 
+            }
+            const [result]:any = await pool.query('INSERT INTO users SET ?', [user])
 
-        res.status(responseCodes.created).json({ message: 'User access added' })
+            res.status(responseCodes.created).json({ message: 'User access added' })
+            }catch(error){
+            return res.status(responseCodes.badRequest).json({ message: 'Error adding user, re-check inserted fields' })
+            }
     },
 
     getUserScheduleById: (req: Request, res: Response) => {
@@ -98,6 +101,12 @@ const usersController = {
 
     },
 
+    deleteUser: async (req: Request, res: Response) => {
+        const id: number = parseInt(req.params.id);
+        const result = await pool.query('UPDATE users SET dateDeleted = ? WHERE id = ?', [new Date(), id])
+        res.status(responseCodes.ok).json({ message: 'Delete Done' })
+    },
+
     editScheduleById: (req: Request, res: Response) => {
         const { firstName, lastName, nameOfSubject, idOfRoom, courseId } = req.body;
         const id: number = parseInt(req.params.id);
@@ -121,7 +130,7 @@ const usersController = {
     }, 
 
     viewAllUsers: async (req: Request, res: Response) => {
-        const [users] = await pool.query('SELECT id, firstName, lastName, email, dateCreated FROM users');
+        const [users] = await pool.query('SELECT id, firstName, lastName, email, dateCreated FROM users WHERE dateDeleted IS NULL');
         res.status(responseCodes.ok).json({ users })
     }
 };

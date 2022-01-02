@@ -27,6 +27,7 @@ app.post('/schedule', db_middleware.logger, morgan("tiny"), usersController.addT
 app.delete('/schedule/:id', db_middleware.logger, morgan("tiny"), usersController.deleteFromScheduleById);
 app.patch('/schedule/:id', db_middleware.logger, morgan("tiny"), usersController.editScheduleById);
 app.get('/wtfusers', db_middleware.logger, morgan("tiny"), usersController.viewAllUsers);
+app.delete('/user/:id', db_middleware.logger, morgan("tiny"), usersController.deleteUser);
 
 app.listen(port, () => {
     console.log('Server is running');

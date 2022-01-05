@@ -3,7 +3,7 @@ import mysql from 'mysql2';
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: 'insert when needed',
+    password: 'MyPassword',
     database: 'classes',
     waitForConnections: true,
     connectionLimit: 10,

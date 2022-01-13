@@ -1,4 +1,4 @@
-import { db_teachers, db_courses, db_rooms, db_subjects, dbTodaysClasses, db_access_control } from './db';
+import { db_teachers, db_courses, db_rooms, db_subjects, dbTodaysClasses } from './db';
 import pool from './database';
 
 export function createTodaysClasses(){

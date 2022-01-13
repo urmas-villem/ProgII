@@ -47,7 +47,7 @@ const usersController = {
         createTodaysClasses()
     
         res.status(responseCodes.ok).json({ classes });
-    }, 
+    },
 
     addToSchedule: (req: Request, res: Response) => {
         const { firstName, lastName, nameOfSubject, idOfRoom, courseId } = req.body;

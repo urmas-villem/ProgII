@@ -17,7 +17,7 @@ export const db_access_control = {
             password: '$2b$10$WZHhMe7HKtoum.HVwJs46Oed2n46YNMpQ6ucgIAn/rXEr3pjtxDeS',
             //password: 'Radiationisabitch',
             role: 'User',
-        }  
+        }
     ]
 };
 

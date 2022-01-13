@@ -13,8 +13,8 @@ const morgan = require("morgan");
 //morgan('tiny') = :method :url :status :res[content-length] - :response-time ms
 app.use(express.json())
 
-app.post('/login', authenticationController.login);
-app.post('/access', db_middleware.logger, morgan("tiny"), usersController.createUserAccess);
+app.post('/login', authenticationController.login); // SQL not needed
+app.post('/access', db_middleware.logger, morgan("tiny"), usersController.createUserAccess); // SQL done
 
 app.use(isLoggedIn);
 app.get('/wtf', db_middleware.logger, morgan("tiny"), usersController.viewAllSchedule);
@@ -25,7 +25,7 @@ app.get('/access/:id', db_middleware.logger, morgan("tiny"), usersController.get
 app.post('/schedule', db_middleware.logger, morgan("tiny"), usersController.addToSchedule);
 app.delete('/schedule/:id', db_middleware.logger, morgan("tiny"), usersController.deleteFromScheduleById);
 app.patch('/schedule/:id', db_middleware.logger, morgan("tiny"), usersController.editScheduleById);
-app.get('/wtfusers', db_middleware.logger, morgan("tiny"), usersController.viewAllUsers);
-app.delete('/user/:id', db_middleware.logger, morgan("tiny"), usersController.deleteUser);
+app.get('/wtfusers', db_middleware.logger, morgan("tiny"), usersController.viewAllUsers); // SQL done
+app.delete('/user/:id', db_middleware.logger, morgan("tiny"), usersController.deleteUser); // SQL done
 
 export default app;

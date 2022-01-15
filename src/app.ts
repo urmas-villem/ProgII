@@ -1,5 +1,5 @@
 import usersController from './components/users/controller';
-import express, { Request, Response, Application, request } from 'express';
+import express, { Application } from 'express';
 import db_middleware from './components/general/middlewares';
 import authenticationController from './components/authentication/authenticationController';
 import isLoggedIn from './components/authentication/isLoggedInMiddleWare';
@@ -17,14 +17,10 @@ app.post('/login', authenticationController.login); // SQL not needed
 app.post('/access', db_middleware.logger, morgan("tiny"), usersController.createUserAccess); // SQL done
 
 app.use(isLoggedIn);
-app.get('/wtf', db_middleware.logger, morgan("tiny"), usersController.viewAllSchedule);
-app.get('/schedule/:id', db_middleware.logger, morgan("tiny"), usersController.getUserScheduleById);
+app.get('/courseschedule/:id', db_middleware.logger, morgan("tiny"), usersController.viewCourseSchedulebyid); // SQL done
+app.get('/schedule/:id', db_middleware.logger, morgan("tiny"), usersController.getUserScheduleById); // SQL done
 
 app.use(isAdmin);
-app.get('/access/:id', db_middleware.logger, morgan("tiny"), usersController.getUserAccessById);
-app.post('/schedule', db_middleware.logger, morgan("tiny"), usersController.addToSchedule);
-app.delete('/schedule/:id', db_middleware.logger, morgan("tiny"), usersController.deleteFromScheduleById);
-app.patch('/schedule/:id', db_middleware.logger, morgan("tiny"), usersController.editScheduleById);
 app.get('/wtfusers', db_middleware.logger, morgan("tiny"), usersController.viewAllUsers); // SQL done
 app.delete('/user/:id', db_middleware.logger, morgan("tiny"), usersController.deleteUser); // SQL done
 

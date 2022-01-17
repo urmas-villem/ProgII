@@ -1,0 +1,66 @@
+CREATE SCHEMA IF NOT EXISTS classes;
+USE classes;
+CREATE TABLE IF NOT EXISTS classes.`users` (
+  id INT NOT NULL AUTO_INCREMENT,
+  firstName VARCHAR(45) NOT NULL,
+  lastName VARCHAR(45) NOT NULL,
+  email VARCHAR(45) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  dateCreated DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  dateDeleted DATETIME NULL DEFAULT NULL,
+  dateUpdated DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  role VARCHAR(45) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE INDEX email_UNIQUE (email ASC) VISIBLE);
+  
+  INSERT INTO users(firstName, lastName, email, password, role) VALUES
+  ('Albert', 'Einstein', 'Albert.Einstein@yahoo.com', '$2b$10$ZPcO7OYsxCYzc10SBE.Ui.L8YRWJsTp7lb6jBpE9Me/J27Fvy/9su', 'Admin'),
+  ('Marie', 'Curie', 'Marie.Curie@dailymail.co.uk', '$2b$10$WZHhMe7HKtoum.HVwJs46Oed2n46YNMpQ6ucgIAn/rXEr3pjtxDeS', 'User');
+  
+  CREATE TABLE IF NOT EXISTS classes.`courses` (
+  id INT NOT NULL AUTO_INCREMENT,
+  courseId varchar(45),
+  PRIMARY KEY (id),
+  UNIQUE INDEX courseId_UNIQUE (id ASC) VISIBLE);
+  
+  INSERT INTO courses(courseId) VALUES
+  ('RIF1'),
+  ('RIF2'),
+  ('RIF3'),
+  ('RIF4');
+  
+  CREATE TABLE IF NOT EXISTS classes.`room`
+  (
+	  id INT NOT NULL,
+	  roomNumber INT NOT NULL,
+	  PRIMARY KEY (id),
+      FOREIGN KEY (id) REFERENCES courses(id)
+  );
+  
+  INSERT INTO room(id, roomNumber) VALUES
+  ((select id from courses where courseId = 'RIF1'), 201),
+  ((select id from courses where courseId = 'RIF2'), 202),
+  ((select id from courses where courseId = 'RIF3'), 203),
+  ((select id from courses where courseId = 'RIF4'), 204);
+  
+  CREATE TABLE IF NOT EXISTS classes.`subjects` (
+  id INT NOT NULL AUTO_INCREMENT,
+  nameOfSubject varchar(45),
+  userId int,
+  PRIMARY KEY (id),
+  FOREIGN KEY (userId) REFERENCES users(id),
+  UNIQUE INDEX nameOfSubject_UNIQUE (id ASC) VISIBLE);
+  
+  INSERT INTO subjects(nameOfSubject, userId) VALUES
+  ('Math', (select id from users where role ='Admin' order by rand() limit 1)),
+  ('Chemistry', (select id from users where role ='Admin' order by rand() limit 1)),
+  ('Computer science', (select id from users where role ='Admin' order by rand() limit 1)),
+  ('Physics', (select id from users where role ='Admin' order by rand() limit 1)),
+  ('English', (select id from users where role ='Admin' order by rand() limit 1)),
+  ('History', (select id from users where role ='Admin' order by rand() limit 1)),
+  ('Graphic design', (select id from users where role ='Admin' order by rand() limit 1)),
+  ('Philosophy', (select id from users where role ='Admin' order by rand() limit 1)),
+  ('Game design', (select id from users where role ='Admin' order by rand() limit 1)),
+  ('Literature', (select id from users where role ='Admin' order by rand() limit 1)),
+  ('Programming', (select id from users where role ='Admin' order by rand() limit 1)),
+  ('Introduction to SQL', (select id from users where role ='Admin' order by rand() limit 1));
